@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:swe/Screens/HomePage.dart';
 import 'package:swe/Services/Auth.dart';
-import 'package:swe/Screens/mainPage.dart';
+import 'package:swe/Screens/FirstPage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AddNewAds extends StatefulWidget {
@@ -22,6 +22,9 @@ class _AddNewAdsState extends State<AddNewAds> {
 
   final AuthService _auth = AuthService();
 
+/* To more information about this method check:
+           Angela course Section 15 lecture 198-199          
+ */
   void messageStrem() async {
     await for (var snapshot in f.collection('Ads').snapshots()) {
       for (var ad in snapshot.documents) {
@@ -40,27 +43,35 @@ class _AddNewAdsState extends State<AddNewAds> {
               color: Colors.white,
             ),
             onPressed: () {
-              f.collection('Ads').add(
-                  {'title': title, 'price': price, 'description': description});
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => HomePage()),
-              );
+              /*Here to make sure that the user fill all the field */
+              if (_formKey.currentState.validate()) {
+                f.collection('Ads').add({
+                  'title': title,
+                  'price': price,
+                  'description': description
+                });
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => HomePage()),
+                );
+              }
             },
           ),
         ),
         appBar: AppBar(
           backgroundColor: Colors.red,
+          //This one to remove the back arrow
           automaticallyImplyLeading: false,
           title: Text('Home Page'),
           elevation: 0,
           actions: <Widget>[
+            //signOut button
             FlatButton.icon(
                 onPressed: () async {
                   await _auth.signOut();
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => MainPage()),
+                    MaterialPageRoute(builder: (context) => FirstPage()),
                   );
                 },
                 icon: Icon(
@@ -73,6 +84,7 @@ class _AddNewAdsState extends State<AddNewAds> {
                 ))
           ],
         ),
+        //To know more about form read the f*cking docs
         body: Form(
           key: _formKey,
           child: Column(
@@ -121,7 +133,6 @@ class _AddNewAdsState extends State<AddNewAds> {
                   description = value;
                 },
               ),
-              
             ],
           ),
         ));

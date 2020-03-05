@@ -40,7 +40,7 @@ class TitleAd extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
-                  Text(title,
+                  Text(title!=null?title:'',
                       style: KTextTitleHomePage,),
                   Text('\$$price',style: KTextPriceHomePage,)
                 ],

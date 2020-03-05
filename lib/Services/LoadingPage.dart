@@ -14,3 +14,10 @@ class Loading extends StatelessWidget {
     );
   }
 }
+/*Here's the loading page that appears after you Sign In
+or Sign up Originally it's a package so you can know more
+about it by following the link:
+              https://pub.dev/packages/flutter_spinkit
+              feel free to change the shapes or colors     
+
+*/

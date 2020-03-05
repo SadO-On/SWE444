@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 
+
+/*Here's a constants value because I don't want 
+              to write the code every time (style stuff)*/
+
+
 const KTextHomeScreen = TextStyle(
   fontSize: 50,
   // fontWeight: FontWeight.w900,

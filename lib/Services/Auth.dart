@@ -1,6 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'userc.dart';
 
+
+/*Here's the Authentication class I'm not sure what happened here
+exactly but everything is stable so, get your ass out of here 
+(before you leave we use here firabase authentication package check it
+                https://pub.dev/packages/firebase_auth
+) */
+
 class AuthService {
   bool isLogOut = false;
 
@@ -15,20 +22,8 @@ class AuthService {
     return _auth.onAuthStateChanged.map(_useFromFireFireBaseUser);
   }
 
-//sign in anony
-  Future signInAnony() async {
-    try {
-      AuthResult result = await _auth.signInAnonymously();
-      FirebaseUser user = result.user;
-      return _useFromFireFireBaseUser(user);
-    } catch (e) {
-      print(e);
-      return null;
-    }
-  }
 
 //sign in whit email-pass
-
   Future signInEAndP(String e, String p) async {
     try {
       AuthResult result =
