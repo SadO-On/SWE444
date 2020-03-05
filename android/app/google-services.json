@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "871357897132",
+    "firebase_url": "https://swe444-61716.firebaseio.com",
+    "project_id": "swe444-61716",
+    "storage_bucket": "swe444-61716.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:871357897132:android:062ab1942748b388da0209",
+        "android_client_info": {
+          "package_name": "com.sadon.swe"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "871357897132-oc1tg767c5plkna3d2ibnk3umar0df39.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyARw0aLlXbOR6f9KtFR78YebrPTpLfIGho"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "871357897132-oc1tg767c5plkna3d2ibnk3umar0df39.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
