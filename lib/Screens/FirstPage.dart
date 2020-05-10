@@ -161,7 +161,7 @@ https://api.flutter.dev/flutter/widgets/State/dispose.html
                       emailController.text, passwordController.text);
                   loading = false;
                 } else {
-                  result = _auth.signUpEAndP(
+                  result = await _auth.signUpEAndP(
                       emailController.text, passwordController.text);
                 }
 
@@ -178,6 +178,11 @@ https://api.flutter.dev/flutter/widgets/State/dispose.html
                   );
                 }
               }
+              setState(() {
+                 String x=emailController.text;
+                     String word=x.substring(0,x.indexOf('@'));
+                    HomePage.whoAreyou = 'Hi $word';
+              });
             },
             child: Text(
               accessTitle,

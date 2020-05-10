@@ -6,6 +6,8 @@ import 'package:swe/Screens/addPostPage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class HomePage extends StatefulWidget {
+    static String whoAreyou='';
+
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -42,7 +44,7 @@ class _HomePageState extends State<HomePage> {
         appBar: AppBar(
           backgroundColor: Colors.red,
           automaticallyImplyLeading: false,
-          title: Text('Home Page'),
+           title: Text(HomePage.whoAreyou),
           elevation: 0,
           actions: <Widget>[
             //Sign out button
