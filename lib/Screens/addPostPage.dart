@@ -48,7 +48,8 @@ class _AddNewAdsState extends State<AddNewAds> {
                 f.collection('Ads').add({
                   'title': title,
                   'price': price,
-                  'description': description
+                  'description': description,
+                  
                 });
                 Navigator.push(
                   context,
