@@ -20,15 +20,19 @@ class HomePage extends StatefulWidget {
       Angela course Section 15 lecture 200-201
 */
 class _HomePageState extends State<HomePage> {
+
+
   final Firestore f = Firestore.instance;
   final AuthService _auth = AuthService();
   String _searchText = '';
   List names = new List();
+   List<String> descriptionCheck = [];
   List filteredNames = new List();
   Icon _searchIcon = new Icon(
     Icons.search,
     color: Colors.white,
   );
+
   Widget _appBarTitle = Text(HomePage.whoAreyou);
   final TextEditingController _filter = TextEditingController();
   bool state = false;
@@ -76,12 +80,8 @@ class _HomePageState extends State<HomePage> {
           title: _appBarTitle,
           elevation: 0,
           actions: <Widget>[
-            // FlatButton(
-            //     onPressed: () {
-            //       print(adsArray.length);
-            //     },
-                // child: Icon(Icons.play_arrow)),
-            FlatButton(onPressed: _searchPressed, child: _searchIcon),
+          
+              FlatButton(onPressed: _searchPressed, child: _searchIcon),
             //Sign out button
             FlatButton.icon(
                 onPressed: () async {
@@ -114,29 +114,25 @@ class _HomePageState extends State<HomePage> {
               }
               Adss newAdds;
               final ads = snapshot.data.documents;
-              //I save the data in array of widgets(1)
               for (var ad in ads) {
-                newAdds = Adss();
+                  newAdds = Adss();
                 newAdds.title = ad.data['title'];
                 newAdds.price = ad.data['price'];
                 newAdds.description = ad.data['description'];
+                newAdds.imageUrl = ad.data['picture'];
                 adsArray.add(newAdds);
               }
+
               for (int i = 0; i < ads.length; i++) {
-                //   final adsTitle = ad.data['title'];
-                //   final adPrice = ad.data['price'];
-                //   final adDesc = ad.data['description'];
                 final adwidget = TitleAd(
                   title: adsArray[i].title,
                   price: adsArray[i].price,
                   description: adsArray[i].description,
+                  imageURl: adsArray[i].imageUrl,
                 );
                 adsList.add(adwidget);
               }
-              // for (var ad in ads) {
-              //   final adsTitle = ad.data['title'];
-              //   filteredNames.add(adsTitle);
-              // }
+
               return state
                   ? _buildList()
                   : ListView(
@@ -153,18 +149,19 @@ class _HomePageState extends State<HomePage> {
   Widget _buildList() {
     List<Widget> filtered = [];
     int counter = 0;
-     List<Adss> tempList=[];
-    List<String> descriptionCheck=[];
+    List<Adss> tempList = [];
+    List<String> descriptionCheck = [];
     if (!(_searchText.isEmpty)) {
-     tempList = new List();
+      tempList = new List();
       filtered = new List();
       for (int i = 0; i < adsArray.length; i++) {
         if (adsArray[i]
             .title
             .toLowerCase()
             .contains(_searchText.toLowerCase())) {
-              // (an old condition i think it's useless) tempList.isNotEmpty && adsArray[i].title.toLowerCase()==adsArray[i].title.toLowerCase()&&
-          if (descriptionCheck.contains(adsArray[i].description)) {
+          // (an old condition i think it's useless) tadsArray[i].title.toLowerCase()==adsArray[i].title.toLowerCase()&&
+          if (tempList.isNotEmpty &&
+              descriptionCheck.contains(adsArray[i].description)) {
           } else {
             print(counter);
             tempList.add(adsArray[i]);
@@ -172,6 +169,7 @@ class _HomePageState extends State<HomePage> {
               title: tempList[counter].title,
               price: tempList[counter].price,
               description: tempList[counter].description,
+              imageURl: tempList[counter].imageUrl,
             ));
             descriptionCheck.add(tempList[counter].description);
             counter++;
@@ -201,7 +199,6 @@ class _HomePageState extends State<HomePage> {
           color: Colors.white,
         );
         this._appBarTitle = Text(HomePage.whoAreyou);
-        filteredNames = names;
         _filter.clear();
       }
     });

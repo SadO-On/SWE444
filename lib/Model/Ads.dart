@@ -3,4 +3,5 @@ class Adss{
    String title;
    String price;
    String description;
+   String imageUrl;
 }

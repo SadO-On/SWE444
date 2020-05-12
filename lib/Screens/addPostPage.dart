@@ -3,6 +3,10 @@ import 'package:swe/Screens/HomePage.dart';
 import 'package:swe/Services/Auth.dart';
 import 'package:swe/Screens/FirstPage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'dart:io';
 
 class AddNewAds extends StatefulWidget {
   @override
@@ -11,12 +15,13 @@ class AddNewAds extends StatefulWidget {
 
 class _AddNewAdsState extends State<AddNewAds> {
   final _formKey = GlobalKey<FormState>();
-
+  File _image;
   String title;
-
+  String picture;
   String price;
-
   String description;
+  String imageUrl;
+  
 
   final Firestore f = Firestore.instance;
 
@@ -42,14 +47,26 @@ class _AddNewAdsState extends State<AddNewAds> {
               Icons.done,
               color: Colors.white,
             ),
-            onPressed: () {
+            onPressed: () async {
+              if(_image != null){
+                final FirebaseStorage storage= FirebaseStorage.instance; 
+                final StorageReference ref = FirebaseStorage.instance.ref().child("${DateTime.now().millisecondsSinceEpoch.toString()}.jpg"); 
+                StorageUploadTask uploadTask = ref.putFile(_image);
+                var dowurl = await (await uploadTask.onComplete).ref.getDownloadURL();
+                picture= dowurl.toString();
+                StorageUploadTask task= storage.ref().child(picture).putFile(_image);
+                task.onComplete.then((snapshot) async{
+                    imageUrl= await snapshot.ref.getDownloadURL();
+                });
+               }
+
               /*Here to make sure that the user fill all the field */
               if (_formKey.currentState.validate()) {
                 f.collection('Ads').add({
                   'title': title,
                   'price': price,
                   'description': description,
-                  
+                  'picture': picture
                 });
                 Navigator.push(
                   context,
@@ -134,8 +151,41 @@ class _AddNewAdsState extends State<AddNewAds> {
                   description = value;
                 },
               ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(2.0),
+                  child: OutlineButton(
+                      borderSide: BorderSide(
+                          color: Colors.grey.withOpacity(0.5), width: 2.5),
+                      onPressed: () {
+                        _selectImage(
+                            ImagePicker.pickImage(source: ImageSource.gallery));
+                      },
+                      child: _displayChild()),
+                ),
+              )
             ],
           ),
         ));
+  }
+
+  void _selectImage(Future<File> pickImage) async {
+    File tempImg = await pickImage;
+    setState(() => _image = tempImg);
+  }
+
+  Widget _displayChild() {
+    if (_image == null) {
+      return Padding(
+          padding: const EdgeInsets.fromLTRB(14, 70, 14, 70),
+          child: new Icon(
+            Icons.add,
+            color: Colors.grey,
+          ));
+    } else {
+      return Padding(
+          padding: const EdgeInsets.fromLTRB(14, 70, 14, 70),
+          child: Image.file(_image));
+    }
   }
 }

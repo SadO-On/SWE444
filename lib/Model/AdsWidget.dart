@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:swe/constants.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:swe/Services/LoadingPage.dart';
 
 class TitleAd extends StatelessWidget {
-  TitleAd({this.title, this.price, this.description});
+  TitleAd({this.title, this.price, this.description,this.imageURl});
   final String title;
   final String price;
   final String description;
+  final String imageURl;
   final double height = 70;
+  bool loading=false;
 
   String getTitle(){
     return title;
@@ -23,7 +26,9 @@ class TitleAd extends StatelessWidget {
               Alert(
                 context: context,
                 title: '$title',
-                desc: '$description',
+                desc: '$description',    
+                image: Image.network(imageURl),
+                //Image  
                 buttons: [
                   DialogButton(
                     
