@@ -26,6 +26,7 @@ class _HomePageState extends State<HomePage> {
   final AuthService _auth = AuthService();
   String _searchText = '';
   List names = new List();
+  List<Widget> filtered = [];
    List<String> descriptionCheck = [];
   List filteredNames = new List();
   Icon _searchIcon = new Icon(
@@ -53,6 +54,7 @@ class _HomePageState extends State<HomePage> {
       }
     });
   }
+ 
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +62,7 @@ class _HomePageState extends State<HomePage> {
       child: Scaffold(
         //This is the button in the bottom of the page
         bottomNavigationBar: BottomAppBar(
-          color: Colors.red,
+          color: Colors.deepPurpleAccent,
           child: IconButton(
             icon: Icon(
               Icons.add,
@@ -75,7 +77,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         appBar: AppBar(
-          backgroundColor: Colors.red,
+          backgroundColor: Colors.deepPurpleAccent,
           automaticallyImplyLeading: false,
           title: _appBarTitle,
           elevation: 0,
@@ -122,6 +124,7 @@ class _HomePageState extends State<HomePage> {
                 newAdds.imageUrl = ad.data['picture'];
                 adsArray.add(newAdds);
               }
+              for(int i = 0; i < adsArray.length; i++){}
 
               for (int i = 0; i < ads.length; i++) {
                 final adwidget = TitleAd(
@@ -139,15 +142,33 @@ class _HomePageState extends State<HomePage> {
                       padding: EdgeInsets.only(bottom: 10),
 /*And use it here the children of the list view is array of widgets
  like column and rows(2)*/
-                      children: adsList,
+                      children: fixedListe(),
                     );
             }),
       ),
     );
   }
 
+
+List<Widget> fixedListe(){
+   List<String> descriptionCheck = [];
+   List<Widget> lastFilteredList=[];
+   for(int i=0 ;i<adsList.length;i++){
+     if(!descriptionCheck.contains(adsArray[i].description)){
+       final adwidget = TitleAd(
+                  title: adsArray[i].title,
+                  price: adsArray[i].price,
+                  description: adsArray[i].description,
+                  imageURl: adsArray[i].imageUrl,
+                );
+                lastFilteredList.add(adwidget);
+                descriptionCheck.add(adsArray[i].description);
+     }
+   }
+   return lastFilteredList;
+
+}
   Widget _buildList() {
-    List<Widget> filtered = [];
     int counter = 0;
     List<Adss> tempList = [];
     List<String> descriptionCheck = [];
@@ -183,7 +204,9 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _searchPressed() {
+    
     setState(() {
+   
       state = true;
       if (this._searchIcon.icon == Icons.search) {
         this._searchIcon = new Icon(Icons.close);
@@ -200,6 +223,7 @@ class _HomePageState extends State<HomePage> {
         );
         this._appBarTitle = Text(HomePage.whoAreyou);
         _filter.clear();
+        filtered.clear();
       }
     });
   }

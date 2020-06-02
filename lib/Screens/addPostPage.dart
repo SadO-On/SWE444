@@ -3,7 +3,6 @@ import 'package:swe/Screens/HomePage.dart';
 import 'package:swe/Services/Auth.dart';
 import 'package:swe/Screens/FirstPage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'dart:io';
@@ -40,8 +39,9 @@ class _AddNewAdsState extends State<AddNewAds> {
 
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
         bottomNavigationBar: BottomAppBar(
-          color: Colors.red,
+          color: Colors.deepPurpleAccent,
           child: IconButton(
             icon: Icon(
               Icons.done,
@@ -77,7 +77,7 @@ class _AddNewAdsState extends State<AddNewAds> {
           ),
         ),
         appBar: AppBar(
-          backgroundColor: Colors.red,
+          backgroundColor: Colors.deepPurpleAccent,
           //This one to remove the back arrow
           automaticallyImplyLeading: false,
           title: Text('Home Page'),
@@ -151,17 +151,22 @@ class _AddNewAdsState extends State<AddNewAds> {
                   description = value;
                 },
               ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(2.0),
-                  child: OutlineButton(
-                      borderSide: BorderSide(
-                          color: Colors.grey.withOpacity(0.5), width: 2.5),
-                      onPressed: () {
-                        _selectImage(
-                            ImagePicker.pickImage(source: ImageSource.gallery));
-                      },
-                      child: _displayChild()),
+              Center(
+                child: Container(
+                  margin: EdgeInsets.only(top:15),
+                  width: 200,
+                  height: 200,
+                  child: Padding(
+                    padding: const EdgeInsets.all(2.0),
+                    child: OutlineButton(
+                        borderSide: BorderSide(
+                            color: Colors.grey.withOpacity(0.5), width: 2.5),
+                        onPressed: () {
+                          _selectImage(
+                              ImagePicker.pickImage(source: ImageSource.gallery));
+                        },
+                        child: _displayChild()),
+                  ),
                 ),
               )
             ],
